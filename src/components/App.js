@@ -5,7 +5,11 @@ import VideoList from './VideoList';
 import youtube from '../apis/youtube.js';
 
 class App extends React.Component {
-  state = { videos: [], selectedVideo: null }
+  state = { videos: [], selectedVideo: null };
+
+  componentDidMount() {
+    this.onTermSubmit('space');
+  }
 
   onTermSubmit = async (term) => {
     const response = await youtube.get('/search', {
@@ -14,7 +18,10 @@ class App extends React.Component {
       }
     });
 
-    this.setState({ videos: response.data.items });
+    this.setState({ 
+      videos: response.data.items,
+      selectedVideo: response.data.items[0]
+    });
   };
 
   onVideoSelect = video => {
